@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Babylon Knowledge — Amazon Connect & AI Contact Center specialists. Custom CCP, Bedrock AI, IVR-as-a-Service, Salesforce CRM integration. Serving Canada, Europe & USA.">
+<meta name="keywords" content="Amazon Connect, AWS consultant, AI contact center, Bedrock, IVR, Salesforce CRM, cloud contact center Canada, Amazon Connect Europe">
+<title>Babylon Knowledge | Amazon Connect & AI Contact Center Specialists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --midnight: #0A0F1E;
+    --deep:     #111827;
+    --panel:    #161D2E;
+    --border:   rgba(255,255,255,0.08);
+    --aws:      #FF9900;
+    --aws-dim:  rgba(255,153,0,0.12);
+    --aws-glow: rgba(255,153,0,0.25);
+    --blue:     #3B82F6;
+    --blue-dim: rgba(59,130,246,0.12);
+    --text:     #F0F4FF;
+    --muted:    #8B95AB;
+    --dim:      #4B5563;
+    --radius:   8px;
+    --font-head: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    background: rgba(10,15,30,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    font-family: var(--font-head);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-brand .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--aws);
+    box-shadow: 0 0 8px var(--aws);
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--aws);
+    color: #000;
+    border: none;
+    padding: 9px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(255,153,0,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 70%, rgba(59,130,246,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--aws-dim);
+    border: 1px solid rgba(255,153,0,0.2);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--aws);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 780px;
+    margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--aws); }
+  .hero-sub {
+    font-size: clamp(16px, 1.8vw, 19px);
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 40px;
+    line-height: 1.65;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 72px; }
+  .btn-primary {
+    background: var(--aws);
+    color: #000;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-width: 760px;
+  }
+  .stat {
+    background: var(--panel);
+    padding: 20px 24px;
+  }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--aws);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  /* ── SECTIONS ── */
+  section { padding: 96px 5%; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--aws);
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-family: var(--font-head);
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 540px;
+    margin-bottom: 56px;
+    line-height: 1.65;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--deep); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .service-card {
+    background: var(--panel);
+    padding: 32px 28px;
+    transition: background 0.2s;
+  }
+  .service-card:hover { background: #1A2235; }
+  .service-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--radius);
+    background: var(--aws-dim);
+    border: 1px solid rgba(255,153,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  .service-card h3 {
+    font-family: var(--font-head);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* ── WHY / RESULTS ── */
+  #results { background: var(--midnight); }
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .result-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    background: var(--panel);
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--aws), transparent);
+  }
+  .result-amount {
+    font-family: var(--font-head);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--aws);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .result-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .result-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .result-client {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* ── TECH STACK ── */
+  #stack { background: var(--deep); }
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .stack-group h4 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--aws);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stack-group ul { list-style: none; }
+  .stack-group li {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 4px 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .stack-group li::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--aws);
+    flex-shrink: 0;
+  }
+
+  /* ── BADGES ── */
+  #certs { background: var(--midnight); }
+  .badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .badge-item {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    text-align: center;
+  }
+  .badge-img {
+    width: 80px; height: 80px;
+    border-radius: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    overflow: hidden;
+  }
+  .badge-img img { width: 100%; height: 100%; object-fit: cover; }
+  .badge-name { font-size: 11px; color: var(--muted); max-width: 80px; line-height: 1.3; }
+
+  .cert-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cert-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .cert-pill span.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--aws); flex-shrink: 0; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--deep); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .about-text p { color: var(--muted); margin-bottom: 20px; font-size: 16px; line-height: 1.75; }
+  .about-text p strong { color: var(--text); font-weight: 600; }
+  .industries { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .industry-tag {
+    font-size: 12px; font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: var(--blue-dim);
+    color: #93C5FD;
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+  .about-highlights { display: flex; flex-direction: column; gap: 16px; }
+  .highlight-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .highlight-icon { font-size: 22px; flex-shrink: 0; }
+  .highlight-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .highlight-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--midnight); }
+  .contact-wrapper {
+    max-width: 600px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-wrapper::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--aws), var(--blue));
+  }
+  .contact-wrapper h2 { margin-bottom: 8px; }
+  .contact-wrapper .section-sub { margin-bottom: 36px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: rgba(255,153,0,0.4);
+  }
+  .form-group textarea { min-height: 110px; resize: vertical; }
+  .form-group select option { background: var(--deep); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .submit-btn {
+    width: 100%;
+    background: var(--aws);
+    color: #000;
+    border: none;
+    padding: 14px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+  .contact-alt {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; gap: 20px;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-link:hover { color: var(--aws); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 5%;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    background: var(--deep);
+  }
+  footer p { font-size: 13px; color: var(--dim); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: var(--dim); text-decoration: none; }
+  .footer-links a:hover { color: var(--muted); }
+
+  /* ── LOCATION BADGE ── */
+  .locations {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+  }
+  .location-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px; color: var(--muted);
+  }
+  .location-badge .flag { font-size: 14px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+    .results-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-wrapper { padding: 32px 24px; }
+    section { padding: 72px 4%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <span class="dot"></span>
+    Babylon Knowledge
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#stack">Technology</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    ⚡ AWS Partner · Amazon Connect Specialists
+  </div>
+  <h1>Build smarter<br>contact centres with<br><span>Amazon Connect & AI</span></h1>
+  <p class="hero-sub">
+    We design, build, and deliver enterprise-grade cloud contact centre solutions — from custom CCPs and AI self-service agents to Bedrock-powered automation. Serving clients across North America and Europe.
+  </p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Start a project</a>
+    <a href="#results" class="btn-ghost">See our results</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">$1M+</div>
+      <div class="stat-label">Client savings delivered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Years Amazon Connect</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">40%</div>
+      <div class="stat-label">Avg call deflection</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Deployments worldwide</div>
+    </div>
+  </div>
+
+  <div class="locations">
+    <span class="location-badge"><span class="flag">🇨🇦</span> Canada</span>
+    <span class="location-badge"><span class="flag">🇬🇧</span> United Kingdom</span>
+    <span class="location-badge"><span class="flag">🇩🇪</span> Germany</span>
+    <span class="location-badge"><span class="flag">🇳🇱</span> Netherlands</span>
+    <span class="location-badge"><span class="flag">🇺🇸</span> United States</span>
+    <span class="location-badge">🌐 Remote globally</span>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-eyebrow">What we do</div>
+  <h2>End-to-end Amazon Connect delivery</h2>
+  <p class="section-sub">From architecture design to production deployment — we cover every layer of your contact centre stack.</p>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🎧</div>
+      <h3>Custom Contact Control Panel</h3>
+      <p>Agent desktop experiences built with Streams.js, Chat.js, and ConnectQ.js — real-time AI suggestions, screen pop, queue metrics, and call disposition workflows.</p>
+      <div class="service-tags">
+        <span class="tag">Streams.js</span>
+        <span class="tag">Chat.js</span>
+        <span class="tag">ConnectQ.js</span>
+        <span class="tag">React.js</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🤖</div>
+      <h3>AI Self-Service Agents</h3>
+      <p>Inbound and outbound AI agents using Bedrock Agents, multi-agent orchestration, RAG pipelines (Kendra/OpenSearch), and guardrails — with seamless escalation to live agents.</p>
+      <div class="service-tags">
+        <span class="tag">Bedrock Agents</span>
+        <span class="tag">Amazon Lex</span>
+        <span class="tag">RAG</span>
+        <span class="tag">Lambda</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📞</div>
+      <h3>Chime SDK IVR-as-a-Service</h3>
+      <p>Serverless, programmable voice IVR using AWS Chime SDK SIP Media Applications — replacing legacy PBX IVR with per-minute billing and elastic scalability.</p>
+      <div class="service-tags">
+        <span class="tag">Chime SDK</span>
+        <span class="tag">SMA</span>
+        <span class="tag">Lambda</span>
+        <span class="tag">API Gateway</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔗</div>
+      <h3>CRM Integration</h3>
+      <p>Bi-directional real-time integration between Amazon Connect and Salesforce, ServiceNow, or Microsoft Dynamics — click-to-dial, call logging, instant screen pop.</p>
+      <div class="service-tags">
+        <span class="tag">Salesforce</span>
+        <span class="tag">ServiceNow</span>
+        <span class="tag">CTI Adapters</span>
+        <span class="tag">EventBridge</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <h3>Analytics & Quality Monitoring</h3>
+      <p>Contact Lens integration, real-time sentiment analysis, QuickSight dashboards, agent performance evaluation, and automated quality workflow triggers.</p>
+      <div class="service-tags">
+        <span class="tag">Contact Lens</span>
+        <span class="tag">QuickSight</span>
+        <span class="tag">CloudWatch</span>
+        <span class="tag">Power BI</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏥</div>
+      <h3>Healthcare & Regulated Industries</h3>
+      <p>HIPAA-compliant Amazon Connect deployments for healthcare payor environments — member E&B, claims status, prior authorisation IVR flows, and dedicated queue routing.</p>
+      <div class="service-tags">
+        <span class="tag">HIPAA</span>
+        <span class="tag">PCI DSS</span>
+        <span class="tag">Healthcare Payor</span>
+        <span class="tag">IaC</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="section-eyebrow">Proven results</div>
+  <h2>Measurable savings,<br>not just deployments</h2>
+  <p class="section-sub">Every engagement is built around business outcomes. Here's what we've delivered for clients.</p>
+
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-amount">$300K</div>
+      <h3>Annual savings via AI-powered chat</h3>
+      <p>Designed and deployed an Amazon Connect + Lex omnichannel IVR replacing costly agent-handled store support calls with AI self-service automation.</p>
+      <span class="result-client">Retail · 1,000+ locations</span>
+    </div>
+    <div class="result-card">
+      <div class="result-amount">$160K</div>
+      <h3>Annual savings via Lambda automation</h3>
+      <p>API middleware and Lambda-based automation eliminated manual data workflows, reducing operational overhead and agent handle time across the contact centre.</p>
+      <span class="result-client">Enterprise · Cloud migration</span>
+    </div>
+    <div class="result-card">
+      <div class="result-amount">60%</div>
+      <h3>Reduction in agent lookup time</h3>
+      <p>Real-time screen pop via bi-directional CRM integration — customer context delivered to agents instantly, eliminating manual CRM searching during live calls.</p>
+      <span class="result-client">Financial services · CRM integration</span>
+    </div>
+    <div class="result-card">
+      <div class="result-amount">40%</div>
+      <h3>Reduction in call volume</h3>
+      <p>Bedrock-powered AI self-service agent handling inbound queries autonomously — with guardrails, session context, and seamless escalation when needed.</p>
+      <span class="result-client">Healthcare payor · AI self-service</span>
+    </div>
+    <div class="result-card">
+      <div class="result-amount">70%</div>
+      <h3>First-contact resolution rate</h3>
+      <p>QnA Bot integrated with Bedrock fallback and Kendra knowledge base — automated FAQ resolution without agent involvement for common customer inquiries.</p>
+      <span class="result-client">Government · Knowledge base</span>
+    </div>
+    <div class="result-card">
+      <div class="result-amount">$1M+</div>
+      <h3>Total client value delivered</h3>
+      <p>Across healthcare, retail, finance, government, and global NGO sectors — combining platform savings, AI deflection, and operational efficiency gains.</p>
+      <span class="result-client">Multi-sector · 20+ years IT</span>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="stack">
+  <div class="section-eyebrow">Technology</div>
+  <h2>The full Amazon Connect stack</h2>
+  <p class="section-sub">We work across every layer — from contact flow design to AI orchestration to IaC deployment.</p>
+
+  <div class="stack-grid">
+    <div class="stack-group">
+      <h4>Amazon Connect</h4>
+      <ul>
+        <li>Contact Flows & IVR</li>
+        <li>Streams.js · Chat.js</li>
+        <li>ConnectQ.js</li>
+        <li>Cases & Tasks APIs</li>
+        <li>Contact Lens</li>
+        <li>Outbound Campaigns</li>
+        <li>Chime SDK (SMA)</li>
+      </ul>
+    </div>
+    <div class="stack-group">
+      <h4>AI & Agentic</h4>
+      <ul>
+        <li>Bedrock Agents</li>
+        <li>Multi-agent Orchestration</li>
+        <li>RAG (Kendra/OpenSearch)</li>
+        <li>Amazon Lex</li>
+        <li>Amazon Q in Connect</li>
+        <li>SageMaker ML</li>
+        <li>Guardrails & Session Mgmt</li>
+      </ul>
+    </div>
+    <div class="stack-group">
+      <h4>Serverless & Integration</h4>
+      <ul>
+        <li>Lambda (Node.js · Python)</li>
+        <li>EventBridge · SNS · SQS</li>
+        <li>API Gateway · DynamoDB</li>
+        <li>Step Functions</li>
+        <li>S3 · CloudWatch</li>
+        <li>REST APIs · WebSocket</li>
+        <li>React.js · AWS Amplify</li>
+      </ul>
+    </div>
+    <div class="stack-group">
+      <h4>CRM & Enterprise</h4>
+      <ul>
+        <li>Salesforce Service Cloud</li>
+        <li>ServiceNow</li>
+        <li>Microsoft Dynamics</li>
+        <li>CTI Adapters</li>
+        <li>Webhook Handlers</li>
+        <li>Real-time Data Sync</li>
+        <li>Power BI · QuickSight</li>
+      </ul>
+    </div>
+    <div class="stack-group">
+      <h4>Infrastructure as Code</h4>
+      <ul>
+        <li>CloudFormation</li>
+        <li>Terraform</li>
+        <li>AWS CDK</li>
+        <li>CI/CD Pipelines</li>
+        <li>Git version control</li>
+        <li>Multi-region DR</li>
+        <li>AWS Well-Architected</li>
+      </ul>
+    </div>
+    <div class="stack-group">
+      <h4>Legacy UC & Telecoms</h4>
+      <ul>
+        <li>Cisco UCCX / UCCE</li>
+        <li>Webex Contact Center</li>
+        <li>SIP Trunking · CUBE</li>
+        <li>CUCM · IMP · CCX</li>
+        <li>Microsoft Teams</li>
+        <li>HIPAA · PCI DSS</li>
+        <li>Jabber · Variphy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="section-eyebrow">Credentials</div>
+  <h2>AWS certified & accredited</h2>
+  <p class="section-sub">Our expertise is backed by AWS Knowledge badges and industry certifications.</p>
+
+  <div class="cert-list">
+    <div class="cert-pill"><span class="dot"></span>AWS Knowledge: Amazon Connect Developer — Trained</div>
+    <div class="cert-pill"><span class="dot"></span>AWS Knowledge: Amazon Connect Communications Specialist — Trained</div>
+    <div class="cert-pill"><span class="dot"></span>AWS Knowledge: Amazon Connect Fundamentals — Trained</div>
+    <div class="cert-pill"><span class="dot"></span>AWS Knowledge: Amazon Connect AI Fundamentals — Trained</div>
+    <div class="cert-pill"><span class="dot"></span>AWS Knowledge: Business Intelligence — Trained</div>
+    <div class="cert-pill"><span class="dot"></span>AWS Engagement Security Training for Partners — 2025</div>
+    <div class="cert-pill"><span class="dot"></span>CVOICE · Cisco Quality of Service</div>
+    <div class="cert-pill"><span class="dot"></span>CCNA — Cisco Certified Network Associate</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-eyebrow">About</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>Built by an architect who's shipped it</h2>
+      <p>Babylon Knowledge was founded by <strong>Ali (Alex) Nssaif</strong> — an Amazon Connect specialist with 12+ years of hands-on contact centre architecture and 20+ years in enterprise IT.</p>
+      <p>We don't just advise — we design, build, and deliver. From custom CCP development with Streams.js to Bedrock multi-agent RAG pipelines to Chime SDK IVR-as-a-Service, every engagement is led by someone who has shipped these solutions in production at scale.</p>
+      <p>Previous clients include the <strong>World Health Organization</strong>, where we delivered globally scalable Amazon Connect architecture, and major retail and healthcare organisations in the US and Canada.</p>
+      <div class="industries">
+        <span class="industry-tag">Healthcare Payor</span>
+        <span class="industry-tag">Financial Services</span>
+        <span class="industry-tag">Retail</span>
+        <span class="industry-tag">Government</span>
+        <span class="industry-tag">Telecoms</span>
+        <span class="industry-tag">Global NGO</span>
+      </div>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-card">
+        <div class="highlight-icon">🏆</div>
+        <div>
+          <h4>Best Employee Award — 2 consecutive years</h4>
+          <p>Recognised in a company of 3,000+ employees for exceptional UC and contact centre initiatives.</p>
+        </div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🌍</div>
+        <div>
+          <h4>Global delivery experience</h4>
+          <p>AI Bot systems deployed across 3 government offices and 50+ private companies with Teams & UCCX integration.</p>
+        </div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">⚡</div>
+        <div>
+          <h4>CUSMA-eligible for Canada</h4>
+          <p>US-based and eligible to work in Canada under the CUSMA professional work permit — no LMIA required.</p>
+        </div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🔒</div>
+        <div>
+          <h4>HIPAA & PCI DSS compliant delivery</h4>
+          <p>Proven delivery in regulated environments including healthcare payor member services and financial services.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper">
+    <div class="section-eyebrow">Contact</div>
+    <h2>Start a conversation</h2>
+    <p class="section-sub">Tell us about your contact centre challenge. We'll respond within one business day.</p>
+
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" placeholder="Company name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@company.com" required>
+      </div>
+      <div class="form-group">
+        <label for="service">What do you need?</label>
+        <select id="service">
+          <option value="">Select a service...</option>
+          <option>Amazon Connect implementation</option>
+          <option>AI self-service agent (Bedrock)</option>
+          <option>Custom CCP (Streams.js / Chat.js)</option>
+          <option>Chime SDK IVR-as-a-Service</option>
+          <option>CRM integration (Salesforce / ServiceNow)</option>
+          <option>Contact centre migration</option>
+          <option>HIPAA-compliant deployment</option>
+          <option>Architecture review</option>
+          <option>Other / not sure yet</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Tell us more</label>
+        <textarea id="message" placeholder="Describe your contact centre environment, what you're trying to achieve, and your rough timeline..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">Send message →</button>
+    </form>
+
+    <div class="contact-alt">
+      <a href="mailto:babylontrc@gmail.com" class="contact-link">
+        ✉️ babylontrc@gmail.com
+      </a>
+      <a href="tel:+12132076505" class="contact-link">
+        📞 (213) 207-6505
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="contact-link">
+        💼 LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Babylon Knowledge LLC · Mission Viejo, CA · babylonknowledge.com</p>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#results">Results</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const company = document.getElementById('company').value;
+  const service = document.getElementById('service').value;
+  const message = document.getElementById('message').value;
+
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  // mailto fallback — replace with your form handler (Formspree, Netlify Forms, etc.)
+  const subject = encodeURIComponent(`New enquiry from ${name} — ${service || 'Babylon Knowledge'}`);
+  const body = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nService: ${service}\n\n${message}`
+  );
+  window.location.href = `mailto:babylontrc@gmail.com?subject=${subject}&body=${body}`;
+
+  setTimeout(() => {
+    btn.textContent = '✓ Message sent — we\'ll be in touch soon';
+    btn.style.background = '#16A34A';
+    btn.style.color = '#fff';
+  }, 800);
+}
+
+// Smooth active nav highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === `#${current}` ? '#FF9900' : '';
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
