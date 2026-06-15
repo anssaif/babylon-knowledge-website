@@ -31,6 +31,11 @@
 <meta name="theme-color"  content="#060B18">
 <link rel="sitemap"       type="application/xml" href="/sitemap.xml">
 
+<!-- ── FAVICON ── -->
+<link rel="icon"             type="image/svg+xml" href="/favicon.svg">
+<link rel="icon"             type="image/svg+xml" sizes="any" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+
 <!-- ── JSON-LD STRUCTURED DATA ── -->
 <script type="application/ld+json">
 {
@@ -131,11 +136,14 @@
     text-decoration: none;
     display: flex; align-items: center; gap: 10px;
   }
-  .nav-brand .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--aws);
-    box-shadow: 0 0 8px var(--aws);
+  .nav-logo {
+    flex-shrink: 0;
+    border-radius: 7px;
+    filter: drop-shadow(0 0 6px rgba(0,212,255,0.35));
+    transition: filter 0.3s;
+  }
+  .nav-brand:hover .nav-logo {
+    filter: drop-shadow(0 0 12px rgba(0,212,255,0.6));
   }
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a {
@@ -927,15 +935,13 @@
     50%       { opacity: 0; }
   }
 
-  /* ── NAV BRAND DOT PULSE ── */
-  .nav-brand .dot {
-    background: var(--cyan);
-    box-shadow: 0 0 8px var(--cyan);
-    animation: dotPulse 2.5s ease-in-out infinite;
+  /* ── NAV LOGO PULSE ── */
+  .nav-logo {
+    animation: logoPulse 3s ease-in-out infinite;
   }
-  @keyframes dotPulse {
-    0%, 100% { box-shadow: 0 0 8px var(--cyan); }
-    50%       { box-shadow: 0 0 18px var(--cyan), 0 0 32px rgba(0,212,255,0.4); }
+  @keyframes logoPulse {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(0,212,255,0.3)); }
+    50%       { filter: drop-shadow(0 0 14px rgba(0,212,255,0.65)); }
   }
 
   /* ── HERO EYEBROW GLOW ── */
@@ -978,7 +984,29 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-brand">
-    <span class="dot"></span>
+    <svg class="nav-logo" width="28" height="28" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00D4FF"/>
+          <stop offset="60%" stop-color="#FF9900"/>
+          <stop offset="100%" stop-color="#FF6B00"/>
+        </linearGradient>
+        <linearGradient id="ng2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00D4FF"/>
+          <stop offset="100%" stop-color="#FF9900"/>
+        </linearGradient>
+      </defs>
+      <rect width="48" height="48" rx="10" fill="#0D1424"/>
+      <rect width="48" height="48" rx="10" fill="none" stroke="url(#ng2)" stroke-width="0.8" opacity="0.4"/>
+      <line x1="13" y1="9" x2="13" y2="39" stroke="#00D4FF" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M13 9 Q28 9 28 16.5 Q28 24 13 24" fill="none" stroke="url(#ng2)" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M13 24 Q31 24 31 31.5 Q31 39 13 39" fill="none" stroke="url(#ng1)" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="13" cy="9"    r="3"   fill="#00D4FF"/>
+      <circle cx="13" cy="24"   r="2.2" fill="#00D4FF" opacity="0.9"/>
+      <circle cx="13" cy="39"   r="3"   fill="#FF9900"/>
+      <circle cx="27.5" cy="16.5" r="2" fill="#00D4FF" opacity="0.7"/>
+      <circle cx="30.5" cy="31.5" r="2" fill="#FF9900" opacity="0.8"/>
+    </svg>
     Babylon Knowledge
   </a>
   <ul class="nav-links">
