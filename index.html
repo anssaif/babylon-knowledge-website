@@ -718,10 +718,9 @@
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
   }
-  body > *:not(#bg-canvas) { position: relative; z-index: 1; }
 
   /* ── FLOATING ORB ACCENTS ── */
   .bg-orb {
@@ -729,7 +728,7 @@
     border-radius: 50%;
     filter: blur(90px);
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
     opacity: 0.18;
   }
   .bg-orb-1 {
