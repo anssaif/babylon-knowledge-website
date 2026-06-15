@@ -499,25 +499,60 @@
   .badge-img img { width: 100%; height: 100%; object-fit: cover; }
   .badge-name { font-size: 11px; color: var(--muted); max-width: 80px; line-height: 1.3; }
 
-  .cert-list { display: flex; flex-wrap: wrap; gap: 10px; }
-  .cert-pill {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(17,25,41,0.7);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(0,212,255,0.1);
-    border-radius: 100px;
-    padding: 9px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
+  /* ── BADGE GRID ── */
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
   }
-  .cert-pill span.dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--aws), var(--cyan));
+  .badge-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(238,242,255,0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 18px 20px;
+    transition: transform 0.3s cubic-bezier(.22,1,.36,1), border-color 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .badge-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,153,0,0.25);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,153,0,0.1);
+  }
+  .badge-icon {
     flex-shrink: 0;
-    box-shadow: 0 0 8px rgba(0,212,255,0.5);
+    filter: drop-shadow(0 0 8px rgba(255,153,0,0.3));
+    transition: filter 0.3s;
   }
+  .badge-card:hover .badge-icon { filter: drop-shadow(0 0 14px rgba(255,153,0,0.5)); }
+  .cisco-badge { filter: drop-shadow(0 0 8px rgba(27,160,215,0.3)); }
+  .badge-card:hover .cisco-badge { filter: drop-shadow(0 0 14px rgba(27,160,215,0.5)); }
+  .badge-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .badge-issuer {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .badge-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .badge-status {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #22C55E;
+    letter-spacing: 0.04em;
+  }
+
+  /* keep old cert-pill class so nothing breaks */
+  .cert-list { display: none; }
 
   /* ── ABOUT ── */
   #about { background: rgba(13,20,36,0.82); }
@@ -906,16 +941,17 @@
     position: fixed;
     z-index: 999;
     max-width: 260px;
-    background: rgba(10,18,36,0.96);
-    backdrop-filter: blur(16px) saturate(160%);
-    border: 1px solid rgba(0,212,255,0.25);
+    background: rgba(238,242,255,0.07);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.14);
     border-radius: 12px;
     padding: 14px 16px;
     pointer-events: none;
     opacity: 0;
     transform: translateY(6px) scale(0.97);
     transition: opacity 0.18s ease, transform 0.18s ease;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.08);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
   }
   #tech-tooltip.visible {
     opacity: 1;
@@ -940,7 +976,7 @@
   }
   #tech-tooltip .tip-desc {
     font-size: 12.5px;
-    color: var(--muted);
+    color: rgba(220,228,255,0.75);
     line-height: 1.6;
   }
   .stack-group li[data-detail] {
@@ -1373,18 +1409,145 @@
 <!-- CERTIFICATIONS -->
 <section id="certs">
   <div class="section-eyebrow">Credentials</div>
-  <h2>AWS certified & accredited</h2>
-  <p class="section-sub">Our expertise is backed by AWS Knowledge badges and industry certifications.</p>
+  <h2>AWS certified &amp; accredited</h2>
+  <p class="section-sub">Backed by AWS Knowledge badges and industry certifications — share your Credly badge images to display official logos.</p>
 
-  <div class="cert-list">
-    <div class="cert-pill reveal reveal-d1"><span class="dot"></span>AWS Knowledge: Amazon Connect Developer — Trained</div>
-    <div class="cert-pill reveal reveal-d2"><span class="dot"></span>AWS Knowledge: Amazon Connect Communications Specialist — Trained</div>
-    <div class="cert-pill reveal reveal-d3"><span class="dot"></span>AWS Knowledge: Amazon Connect Fundamentals — Trained</div>
-    <div class="cert-pill reveal reveal-d4"><span class="dot"></span>AWS Knowledge: Amazon Connect AI Fundamentals — Trained</div>
-    <div class="cert-pill reveal reveal-d5"><span class="dot"></span>AWS Knowledge: Business Intelligence — Trained</div>
-    <div class="cert-pill reveal reveal-d1"><span class="dot"></span>AWS Engagement Security Training for Partners — 2025</div>
-    <div class="cert-pill reveal reveal-d2"><span class="dot"></span>CVOICE · Cisco Quality of Service</div>
-    <div class="cert-pill reveal reveal-d3"><span class="dot"></span>CCNA — Cisco Certified Network Associate</div>
+  <div class="badge-grid">
+
+    <!-- AWS Knowledge Badges -->
+    <div class="badge-card reveal reveal-d1">
+      <div class="badge-icon aws-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" fill="#1A2235" stroke="url(#bgrad1)" stroke-width="2"/>
+          <defs>
+            <linearGradient id="bgrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FF9900"/><stop offset="100%" stop-color="#FF6B00"/>
+            </linearGradient>
+          </defs>
+          <text x="40" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#FF9900" font-family="sans-serif">AWS</text>
+          <text x="40" y="50" text-anchor="middle" font-size="7" fill="#8892A4" font-family="sans-serif">KNOWLEDGE</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Amazon Web Services</div>
+        <div class="badge-name">Amazon Connect Developer</div>
+        <div class="badge-status">✓ Trained</div>
+      </div>
+    </div>
+
+    <div class="badge-card reveal reveal-d2">
+      <div class="badge-icon aws-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" fill="#1A2235" stroke="url(#bgrad2)" stroke-width="2"/>
+          <defs><linearGradient id="bgrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9900"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs>
+          <text x="40" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#FF9900" font-family="sans-serif">AWS</text>
+          <text x="40" y="50" text-anchor="middle" font-size="7" fill="#8892A4" font-family="sans-serif">KNOWLEDGE</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Amazon Web Services</div>
+        <div class="badge-name">Amazon Connect Comms Specialist</div>
+        <div class="badge-status">✓ Trained</div>
+      </div>
+    </div>
+
+    <div class="badge-card reveal reveal-d3">
+      <div class="badge-icon aws-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" fill="#1A2235" stroke="url(#bgrad3)" stroke-width="2"/>
+          <defs><linearGradient id="bgrad3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9900"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs>
+          <text x="40" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#FF9900" font-family="sans-serif">AWS</text>
+          <text x="40" y="50" text-anchor="middle" font-size="7" fill="#8892A4" font-family="sans-serif">KNOWLEDGE</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Amazon Web Services</div>
+        <div class="badge-name">Amazon Connect Fundamentals</div>
+        <div class="badge-status">✓ Trained</div>
+      </div>
+    </div>
+
+    <div class="badge-card reveal reveal-d4">
+      <div class="badge-icon aws-ai-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" fill="#1A2235" stroke="url(#bgrad4)" stroke-width="2"/>
+          <defs><linearGradient id="bgrad4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D4FF"/><stop offset="100%" stop-color="#FF9900"/></linearGradient></defs>
+          <text x="40" y="34" text-anchor="middle" font-size="11" font-weight="700" fill="#FF9900" font-family="sans-serif">AWS</text>
+          <text x="40" y="46" text-anchor="middle" font-size="7.5" font-weight="700" fill="#00D4FF" font-family="sans-serif">AI</text>
+          <text x="40" y="57" text-anchor="middle" font-size="6" fill="#8892A4" font-family="sans-serif">KNOWLEDGE</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Amazon Web Services</div>
+        <div class="badge-name">Amazon Connect AI Fundamentals</div>
+        <div class="badge-status">✓ Trained</div>
+      </div>
+    </div>
+
+    <div class="badge-card reveal reveal-d5">
+      <div class="badge-icon aws-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" fill="#1A2235" stroke="url(#bgrad5)" stroke-width="2"/>
+          <defs><linearGradient id="bgrad5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9900"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs>
+          <text x="40" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#FF9900" font-family="sans-serif">AWS</text>
+          <text x="40" y="50" text-anchor="middle" font-size="7" fill="#8892A4" font-family="sans-serif">KNOWLEDGE</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Amazon Web Services</div>
+        <div class="badge-name">Business Intelligence</div>
+        <div class="badge-status">✓ Trained</div>
+      </div>
+    </div>
+
+    <div class="badge-card reveal reveal-d6">
+      <div class="badge-icon aws-sec-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" fill="#1A2235" stroke="url(#bgrad6)" stroke-width="2"/>
+          <defs><linearGradient id="bgrad6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#FF9900"/></linearGradient></defs>
+          <text x="40" y="34" text-anchor="middle" font-size="11" font-weight="700" fill="#FF9900" font-family="sans-serif">AWS</text>
+          <text x="40" y="46" text-anchor="middle" font-size="7" fill="#A78BFA" font-family="sans-serif">SECURITY</text>
+          <text x="40" y="57" text-anchor="middle" font-size="6" fill="#8892A4" font-family="sans-serif">PARTNER</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Amazon Web Services</div>
+        <div class="badge-name">Engagement Security Training</div>
+        <div class="badge-status">✓ 2025</div>
+      </div>
+    </div>
+
+    <!-- Cisco Badges -->
+    <div class="badge-card reveal reveal-d1">
+      <div class="badge-icon cisco-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <circle cx="40" cy="40" r="36" fill="#1A2235" stroke="#1BA0D7" stroke-width="2"/>
+          <text x="40" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#1BA0D7" font-family="sans-serif">CISCO</text>
+          <text x="40" y="52" text-anchor="middle" font-size="8" fill="#8892A4" font-family="sans-serif">CVOICE</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Cisco Systems</div>
+        <div class="badge-name">CVOICE — Quality of Service</div>
+        <div class="badge-status">✓ Certified</div>
+      </div>
+    </div>
+
+    <div class="badge-card reveal reveal-d2">
+      <div class="badge-icon cisco-badge">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+          <circle cx="40" cy="40" r="36" fill="#1A2235" stroke="#1BA0D7" stroke-width="2"/>
+          <text x="40" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="#1BA0D7" font-family="sans-serif">CISCO</text>
+          <text x="40" y="50" text-anchor="middle" font-size="9" font-weight="700" fill="#00D4FF" font-family="sans-serif">CCNA</text>
+        </svg>
+      </div>
+      <div class="badge-info">
+        <div class="badge-issuer">Cisco Systems</div>
+        <div class="badge-name">CCNA — Network Associate</div>
+        <div class="badge-status">✓ Certified</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
