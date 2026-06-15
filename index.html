@@ -324,7 +324,7 @@
   }
 
   /* ── SERVICES ── */
-  #services { background: var(--deep); }
+  #services { background: rgba(13,20,36,0.82); }
   .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -376,7 +376,7 @@
   }
 
   /* ── WHY / RESULTS ── */
-  #results { background: var(--midnight); }
+  #results { background: rgba(6,11,24,0.80); }
   .results-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -423,7 +423,7 @@
   }
 
   /* ── TECH STACK ── */
-  #stack { background: var(--deep); }
+  #stack { background: rgba(13,20,36,0.82); }
   .stack-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -466,7 +466,7 @@
   }
 
   /* ── BADGES ── */
-  #certs { background: var(--midnight); }
+  #certs { background: rgba(6,11,24,0.80); }
   .badges-row {
     display: flex;
     flex-wrap: wrap;
@@ -511,7 +511,7 @@
   }
 
   /* ── ABOUT ── */
-  #about { background: var(--deep); }
+  #about { background: rgba(13,20,36,0.82); }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
   .about-text p { color: var(--muted); margin-bottom: 20px; font-size: 16px; line-height: 1.75; }
   .about-text p strong { color: var(--text); font-weight: 600; }
@@ -537,7 +537,7 @@
   .highlight-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
   /* ── CONTACT ── */
-  #contact { background: var(--midnight); }
+  #contact { background: rgba(6,11,24,0.80); }
   .contact-wrapper {
     max-width: 620px;
     background: rgba(13,20,36,0.8);
@@ -613,7 +613,7 @@
     border-top: 1px solid rgba(0,212,255,0.08);
     padding: 28px 5%;
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-    background: var(--deep);
+    background: rgba(13,20,36,0.88);
     position: relative;
   }
   footer::before {
@@ -664,7 +664,7 @@
   }
 
   /* ── PROCESS STEPS ── */
-  #process { background: var(--deep); }
+  #process { background: rgba(13,20,36,0.82); }
   .process-steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1464,30 +1464,81 @@ function handleSubmit(e) {
     this.color = roll > 0.65 ? '#00D4FF' : roll > 0.35 ? '#FF9900' : '#7C3AED';
   }
 
+  /* AI neural spark — 4 types: node+ring, crosshair, diamond, data-dash */
   function Star(x, y) {
-    this.x = x + (Math.random() - 0.5) * 18;
-    this.y = y + (Math.random() - 0.5) * 18;
-    this.size = Math.random() * 10 + 5;
-    this.alpha = 0.9;
-    this.decay = Math.random() * 0.022 + 0.012;
+    this.x = x + (Math.random() - 0.5) * 20;
+    this.y = y + (Math.random() - 0.5) * 20;
+    this.size = Math.random() * 8 + 4;
+    this.alpha = 1.0;
+    this.decay = Math.random() * 0.018 + 0.01;
     this.rotation = Math.random() * Math.PI;
-    this.rotSpeed = (Math.random() - 0.5) * 0.06;
-    this.vx = (Math.random() - 0.5) * 0.6;
-    this.vy = (Math.random() - 0.5) * 0.6 - 0.4;
+    this.rotSpeed = (Math.random() - 0.5) * 0.05;
+    this.vx = (Math.random() - 0.5) * 0.7;
+    this.vy = (Math.random() - 0.5) * 0.7 - 0.5;
     const roll = Math.random();
     this.color = roll > 0.6 ? '#00D4FF' : roll > 0.3 ? '#FF9900' : '#FFFFFF';
-    this.points = Math.random() > 0.4 ? 4 : 5;
+    this.type = Math.floor(Math.random() * 4);
+    this.ring = 0;
   }
 
-  function drawStar(cx, cy, pts, outer, inner, rot) {
-    ctx.beginPath();
-    for (let i = 0; i < pts * 2; i++) {
-      const r = i % 2 === 0 ? outer : inner;
-      const angle = (i * Math.PI) / pts + rot;
-      i === 0 ? ctx.moveTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle))
-               : ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+  function drawNeuralSpark(s) {
+    const { x, y, size, rotation, color, type } = s;
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.4;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = color;
+
+    if (type === 0) {
+      /* node + expanding pulse ring */
+      ctx.beginPath();
+      ctx.arc(x, y, size * 0.32, 0, Math.PI * 2);
+      ctx.fill();
+      s.ring += 0.9;
+      const ringAlpha = s.alpha * Math.max(0, 1 - s.ring / (size * 4.5));
+      ctx.globalAlpha = ringAlpha;
+      ctx.beginPath();
+      ctx.arc(x, y, s.ring, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (type === 1) {
+      /* crosshair + centre dot */
+      const arm = size * 0.9;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(rotation);
+      ctx.beginPath();
+      ctx.moveTo(-arm, 0); ctx.lineTo(-arm * 0.3, 0);
+      ctx.moveTo(arm * 0.3, 0); ctx.lineTo(arm, 0);
+      ctx.moveTo(0, -arm); ctx.lineTo(0, -arm * 0.3);
+      ctx.moveTo(0, arm * 0.3); ctx.lineTo(0, arm);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 0.22, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    } else if (type === 2) {
+      /* diamond ◇ */
+      const d = size * 0.9;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(rotation);
+      ctx.beginPath();
+      ctx.moveTo(0, -d); ctx.lineTo(d * 0.5, 0);
+      ctx.lineTo(0, d);  ctx.lineTo(-d * 0.5, 0);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.globalAlpha = s.alpha * 0.25;
+      ctx.fill();
+      ctx.restore();
+    } else {
+      /* data-dash: line + leading dot */
+      const len = size * 1.5;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(rotation);
+      ctx.beginPath();
+      ctx.moveTo(-len, 0); ctx.lineTo(len * 0.35, 0);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(len * 0.35, 0, size * 0.28, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     }
-    ctx.closePath();
+    ctx.shadowBlur = 0;
   }
 
   function spawnStars(x, y, count) {
@@ -1544,20 +1595,14 @@ function handleSubmit(e) {
       ctx.fill();
     }
 
-    /* draw & age stars */
+    /* draw & age neural sparks */
     stars = stars.filter(s => s.alpha > 0.01);
     for (const s of stars) {
       s.x += s.vx; s.y += s.vy;
       s.rotation += s.rotSpeed;
       s.alpha -= s.decay;
-      const inner = s.size * 0.42;
       ctx.globalAlpha = s.alpha;
-      ctx.fillStyle = s.color;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = s.color;
-      drawStar(s.x, s.y, s.points, s.size, inner, s.rotation);
-      ctx.fill();
-      ctx.shadowBlur = 0;
+      drawNeuralSpark(s);
     }
 
     ctx.globalAlpha = 1;
