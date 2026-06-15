@@ -901,6 +901,55 @@
   .stack-group:hover h4 { color: #FFB340; }
   .stack-group h4 { transition: color 0.25s; }
 
+  /* ── TECH TOOLTIP CARD ── */
+  #tech-tooltip {
+    position: fixed;
+    z-index: 999;
+    max-width: 260px;
+    background: rgba(10,18,36,0.96);
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 12px;
+    padding: 14px 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.08);
+  }
+  #tech-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  #tech-tooltip::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(90deg, var(--aws), var(--cyan));
+  }
+  #tech-tooltip .tip-label {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 7px;
+    background: linear-gradient(90deg, var(--aws), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  #tech-tooltip .tip-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .stack-group li[data-detail] {
+    cursor: default;
+  }
+  .stack-group li[data-detail]:hover {
+    color: var(--cyan);
+  }
+
   /* ── AI TYPING BAR ── */
   .ai-typing-bar {
     display: inline-flex; align-items: center; gap: 12px;
@@ -984,6 +1033,9 @@
 
 </head>
 <body>
+
+<!-- TECH TOOLTIP -->
+<div id="tech-tooltip"><div class="tip-label"></div><div class="tip-desc"></div></div>
 
 <!-- MOVING BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
@@ -1246,73 +1298,73 @@
     <div class="stack-group">
       <h4>Amazon Connect</h4>
       <ul>
-        <li>Contact Flows & IVR</li>
-        <li>Streams.js · Chat.js</li>
-        <li>ConnectQ.js</li>
-        <li>Cases & Tasks APIs</li>
-        <li>Contact Lens</li>
-        <li>Outbound Campaigns</li>
-        <li>Chime SDK (SMA)</li>
+        <li data-detail="Design intelligent call routing with drag-and-drop flows. IVR menus, queue transfers, dynamic prompts, and callback scheduling.">Contact Flows &amp; IVR</li>
+        <li data-detail="Real-time agent desktop SDKs. Embed Amazon Connect into custom React apps with full call control, chat panels, and live event hooks.">Streams.js · Chat.js</li>
+        <li data-detail="Queue metrics SDK. Display live agent counts, wait times, and queue depths inside custom supervisor dashboards.">ConnectQ.js</li>
+        <li data-detail="Create and manage customer cases and follow-up tasks directly from contact flows or Lambda — keeping agents on task post-call.">Cases &amp; Tasks APIs</li>
+        <li data-detail="AI-powered speech analytics. Transcribe calls in real time, detect sentiment, flag keywords, and trigger automated quality workflows.">Contact Lens</li>
+        <li data-detail="Automated outbound dialling with campaign management, compliance controls, answer detection, and full disposition tracking.">Outbound Campaigns</li>
+        <li data-detail="Serverless programmable voice IVR using SIP Media Applications. Replace legacy PBX with per-minute Lambda-based call handling.">Chime SDK (SMA)</li>
       </ul>
     </div>
     <div class="stack-group">
-      <h4>AI & Agentic</h4>
+      <h4>AI &amp; Agentic</h4>
       <ul>
-        <li>Bedrock Agents</li>
-        <li>Multi-agent Orchestration</li>
-        <li>RAG (Kendra/OpenSearch)</li>
-        <li>Amazon Lex</li>
-        <li>Amazon Q in Connect</li>
-        <li>SageMaker ML</li>
-        <li>Guardrails & Session Mgmt</li>
+        <li data-detail="Orchestrate multi-step AI tasks using Claude, Titan, or Llama models. Build agents that call APIs, retrieve knowledge, and act autonomously.">Bedrock Agents</li>
+        <li data-detail="Coordinate specialist sub-agents — intent classifier, knowledge retriever, action executor — for complex, multi-turn contact centre workflows.">Multi-agent Orchestration</li>
+        <li data-detail="Retrieval-Augmented Generation: ground AI answers in your own policy documents, FAQs, and product data using Kendra or OpenSearch.">RAG (Kendra/OpenSearch)</li>
+        <li data-detail="Conversational AI for voice and chat. Build intent-based IVR menus and chatbots that integrate natively with Amazon Connect flows.">Amazon Lex</li>
+        <li data-detail="Real-time AI suggestions pushed to agents mid-call — surfaces relevant knowledge articles and recommended responses automatically.">Amazon Q in Connect</li>
+        <li data-detail="Train and deploy custom ML models for call classification, customer churn prediction, or next-best-action recommendations.">SageMaker ML</li>
+        <li data-detail="Control AI behaviour with topic deny-lists, PII redaction, and session memory management across multi-turn conversations.">Guardrails &amp; Session Mgmt</li>
       </ul>
     </div>
     <div class="stack-group">
-      <h4>Serverless & Integration</h4>
+      <h4>Serverless &amp; Integration</h4>
       <ul>
-        <li>Lambda (Node.js · Python)</li>
-        <li>EventBridge · SNS · SQS</li>
-        <li>API Gateway · DynamoDB</li>
-        <li>Step Functions</li>
-        <li>S3 · CloudWatch</li>
-        <li>REST APIs · WebSocket</li>
-        <li>React.js · AWS Amplify</li>
+        <li data-detail="Event-driven compute powering contact flows, CRM lookups, AI orchestration, and automation — in Node.js or Python, no servers to manage.">Lambda (Node.js · Python)</li>
+        <li data-detail="Decoupled event routing and messaging. EventBridge for event buses, SNS for fan-out notifications, SQS for reliable queue processing.">EventBridge · SNS · SQS</li>
+        <li data-detail="REST API layer backed by DynamoDB for low-latency data storage — customer profiles, session state, and contact history at scale.">API Gateway · DynamoDB</li>
+        <li data-detail="Orchestrate multi-step automation workflows with built-in error handling, retries, and branching — ideal for complex post-call processes.">Step Functions</li>
+        <li data-detail="S3 for call recording storage and data lakes. CloudWatch for real-time metrics, alarms, and log-based anomaly detection.">S3 · CloudWatch</li>
+        <li data-detail="REST and WebSocket APIs for real-time agent desktop updates, supervisor dashboards, and third-party system integrations.">REST APIs · WebSocket</li>
+        <li data-detail="React.js for custom CCP and supervisor UIs. AWS Amplify for hosting, auth, and CI/CD deployment of frontend applications.">React.js · AWS Amplify</li>
       </ul>
     </div>
     <div class="stack-group">
-      <h4>CRM & Enterprise</h4>
+      <h4>CRM &amp; Enterprise</h4>
       <ul>
-        <li>Salesforce Service Cloud</li>
-        <li>ServiceNow</li>
-        <li>Microsoft Dynamics</li>
-        <li>CTI Adapters</li>
-        <li>Webhook Handlers</li>
-        <li>Real-time Data Sync</li>
-        <li>Power BI · QuickSight</li>
+        <li data-detail="Bi-directional Amazon Connect integration: click-to-dial, instant screen pop, automatic call logging, and case creation in Service Cloud.">Salesforce Service Cloud</li>
+        <li data-detail="CTI integration with ServiceNow ITSM — auto-create incidents, route calls by ticket priority, and log interactions to the service record.">ServiceNow</li>
+        <li data-detail="Amazon Connect connector for Dynamics 365 — customer record screen pop, call logging, and activity creation on every inbound call.">Microsoft Dynamics</li>
+        <li data-detail="Pre-built and custom CTI adapters linking Amazon Connect to CRM platforms — bridging telephony events with CRM data in real time.">CTI Adapters</li>
+        <li data-detail="Inbound webhook receivers that trigger CRM updates, Lambda functions, or workflow automations from contact centre events.">Webhook Handlers</li>
+        <li data-detail="Two-way live data sync between Amazon Connect and CRM — contact attributes, disposition codes, and wrap-up data flow instantly.">Real-time Data Sync</li>
+        <li data-detail="Custom contact centre dashboards in Power BI or QuickSight — agent performance, queue trends, AI deflection rates, and ROI metrics.">Power BI · QuickSight</li>
       </ul>
     </div>
     <div class="stack-group">
       <h4>Infrastructure as Code</h4>
       <ul>
-        <li>CloudFormation</li>
-        <li>Terraform</li>
-        <li>AWS CDK</li>
-        <li>CI/CD Pipelines</li>
-        <li>Git version control</li>
-        <li>Multi-region DR</li>
-        <li>AWS Well-Architected</li>
+        <li data-detail="Define and deploy Amazon Connect resources, Lambda functions, and IAM roles as repeatable, version-controlled CloudFormation stacks.">CloudFormation</li>
+        <li data-detail="Provider-agnostic IaC for multi-cloud deployments. Manage AWS resources alongside on-prem infrastructure in a single codebase.">Terraform</li>
+        <li data-detail="AWS Cloud Development Kit — define infrastructure in TypeScript or Python with reusable constructs, compiled to CloudFormation.">AWS CDK</li>
+        <li data-detail="Automated build, test, and deploy pipelines via CodePipeline, GitHub Actions, or Bitbucket — zero-downtime contact centre deployments.">CI/CD Pipelines</li>
+        <li data-detail="Full git-based version control for contact flows, Lambda code, IaC templates, and configuration — enabling rollback and audit trails.">Git version control</li>
+        <li data-detail="Active-active or active-passive multi-region architectures for Amazon Connect — ensuring business continuity with sub-minute failover.">Multi-region DR</li>
+        <li data-detail="Formal AWS review against the 6 pillars: Operational Excellence, Security, Reliability, Performance, Cost, and Sustainability.">AWS Well-Architected</li>
       </ul>
     </div>
     <div class="stack-group">
-      <h4>Legacy UC & Telecoms</h4>
+      <h4>Legacy UC &amp; Telecoms</h4>
       <ul>
-        <li>Cisco UCCX / UCCE</li>
-        <li>Webex Contact Center</li>
-        <li>SIP Trunking · CUBE</li>
-        <li>CUCM · IMP · CCX</li>
-        <li>Microsoft Teams</li>
-        <li>HIPAA · PCI DSS</li>
-        <li>Jabber · Variphy</li>
+        <li data-detail="Migration and integration experience with Cisco UCCX and UCCE — mapping legacy scripts, queues, and routing to Amazon Connect equivalents.">Cisco UCCX / UCCE</li>
+        <li data-detail="Webex Contact Center assessment and migration planning — agent profile mapping, flow conversion, and parallel-run cutover strategy.">Webex Contact Center</li>
+        <li data-detail="SIP trunk configuration and Cisco CUBE setup for hybrid telephony — bridging on-prem PBX with Amazon Connect or Chime SDK.">SIP Trunking · CUBE</li>
+        <li data-detail="Full Cisco UC stack experience: CUCM call manager, IMP presence, CCX scripting — for hybrid and migration scenarios.">CUCM · IMP · CCX</li>
+        <li data-detail="Microsoft Teams Direct Routing and contact centre integration — enabling Teams users to receive and handle contact centre calls.">Microsoft Teams</li>
+        <li data-detail="Architecture and delivery of HIPAA-compliant and PCI DSS-scoped contact centre environments in AWS — including BAAs and scoping documentation.">HIPAA · PCI DSS</li>
+        <li data-detail="Jabber soft-client configuration and Variphy call analytics integration for Cisco UC environments and legacy reporting.">Jabber · Variphy</li>
       </ul>
     </div>
   </div>
@@ -1736,6 +1788,44 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .submit-btn, .nav-cta').for
     wave.addEventListener('animationend', () => wave.remove());
   });
 });
+
+/* ── TECH STACK TOOLTIP ── */
+(function() {
+  const tip = document.getElementById('tech-tooltip');
+  const label = tip.querySelector('.tip-label');
+  const desc  = tip.querySelector('.tip-desc');
+  let hideTimer;
+
+  document.querySelectorAll('.stack-group li[data-detail]').forEach(li => {
+    li.addEventListener('mouseenter', (e) => {
+      clearTimeout(hideTimer);
+      label.textContent = li.textContent.trim();
+      desc.textContent  = li.dataset.detail;
+
+      const rect = li.getBoundingClientRect();
+      const tipW = 265;
+      const margin = 12;
+
+      let left = rect.right + margin;
+      let top  = rect.top + (rect.height / 2) - 40;
+
+      /* flip left if not enough room on right */
+      if (left + tipW > window.innerWidth - 16) {
+        left = rect.left - tipW - margin;
+      }
+      /* clamp vertical */
+      top = Math.max(80, Math.min(top, window.innerHeight - 160));
+
+      tip.style.left = left + 'px';
+      tip.style.top  = top  + 'px';
+      tip.classList.add('visible');
+    });
+
+    li.addEventListener('mouseleave', () => {
+      hideTimer = setTimeout(() => tip.classList.remove('visible'), 120);
+    });
+  });
+})();
 
 /* ── AI TYPING ANIMATION ── */
 (function() {
