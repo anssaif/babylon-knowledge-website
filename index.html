@@ -956,33 +956,26 @@
     position: fixed;
     z-index: 999;
     max-width: 260px;
-    background: rgba(238,242,255,0.07);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(230,235,255,0.12);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.18);
     border-radius: 12px;
     padding: 14px 16px;
     pointer-events: none;
     opacity: 0;
     transform: translateY(6px) scale(0.97);
     transition: opacity 0.18s ease, transform 0.18s ease;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
   }
   #tech-tooltip.visible {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-  #tech-tooltip::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    border-radius: 12px 12px 0 0;
-    background: linear-gradient(90deg, var(--aws), var(--cyan));
-  }
   #tech-tooltip .tip-label {
     font-family: var(--font-head);
     font-size: 13px;
     font-weight: 700;
-    color: var(--text);
     margin-bottom: 7px;
     background: linear-gradient(90deg, var(--aws), var(--cyan));
     -webkit-background-clip: text;
@@ -991,15 +984,11 @@
   }
   #tech-tooltip .tip-desc {
     font-size: 12.5px;
-    color: rgba(220,228,255,0.75);
+    color: rgba(225,232,255,0.82);
     line-height: 1.6;
   }
-  .stack-group li[data-detail] {
-    cursor: default;
-  }
-  .stack-group li[data-detail]:hover {
-    color: var(--cyan);
-  }
+  .stack-group li[data-detail] { cursor: default; }
+  .stack-group li[data-detail]:hover { color: var(--cyan); }
 
   /* ── AI TYPING BAR ── */
   .ai-typing-bar {
@@ -1885,19 +1874,27 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .submit-btn, .nav-cta').for
       desc.textContent  = li.dataset.detail;
 
       const rect = li.getBoundingClientRect();
-      const tipW = 265;
+      const tipW = Math.min(260, window.innerWidth - 32);
       const margin = 12;
+      let left, top;
 
-      let left = rect.right + margin;
-      let top  = rect.top + (rect.height / 2) - 40;
-
-      /* flip left if not enough room on right */
-      if (left + tipW > window.innerWidth - 16) {
-        left = rect.left - tipW - margin;
+      if (window.innerWidth <= 768) {
+        /* mobile: show below the item, centred on screen */
+        left = Math.max(16, (window.innerWidth - tipW) / 2);
+        top  = rect.bottom + margin;
+        /* if near bottom, show above instead */
+        if (top + 160 > window.innerHeight) top = rect.top - 160 - margin;
+      } else {
+        /* desktop: prefer right side, flip left if no room */
+        left = rect.right + margin;
+        top  = rect.top + (rect.height / 2) - 40;
+        if (left + tipW > window.innerWidth - 16) {
+          left = rect.left - tipW - margin;
+        }
+        top = Math.max(80, Math.min(top, window.innerHeight - 160));
       }
-      /* clamp vertical */
-      top = Math.max(80, Math.min(top, window.innerHeight - 160));
 
+      tip.style.maxWidth = tipW + 'px';
       tip.style.left = left + 'px';
       tip.style.top  = top  + 'px';
       tip.classList.add('visible');
